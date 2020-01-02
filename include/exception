@@ -90,6 +90,10 @@ template <class E> void rethrow_if_nested(const E& e);
 #pragma GCC system_header
 #endif
 
+#ifdef STD_EXCEPTION_HAS_STACK_TRACE
+extern "C" int unw_backtrace(void **, int);
+#endif
+
 namespace std  // purposefully not using versioning namespace
 {
 
@@ -97,9 +101,28 @@ namespace std  // purposefully not using versioning namespace
 class _LIBCPP_EXCEPTION_ABI exception
 {
 public:
-    _LIBCPP_INLINE_VISIBILITY exception() _NOEXCEPT {}
+    _LIBCPP_INLINE_VISIBILITY exception() _NOEXCEPT
+    {
+#ifdef STD_EXCEPTION_HAS_STACK_TRACE
+        capture();
+#endif
+    }
     virtual ~exception() _NOEXCEPT;
     virtual const char* what() const _NOEXCEPT;
+#ifdef STD_EXCEPTION_HAS_STACK_TRACE
+    /// This is ClickHouse patch to libc++. It breaks ABI, so you cannot link your code with any C++ libraries
+    /// that has any std::exception-related symbols exported and was built without this patch.
+    void ** const get_stack_trace_frames() const { return const_cast<void**>(frames); }
+    int get_stack_trace_size() const { return size; }
+private:
+    static constexpr int capacity = 32;
+    void * frames[capacity];
+    int size = 0;
+    void capture()
+    {
+        size = unw_backtrace(frames, capacity);
+    }
+#endif
 };
 
 class _LIBCPP_EXCEPTION_ABI bad_exception
