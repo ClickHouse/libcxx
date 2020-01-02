@@ -110,7 +110,7 @@ public:
     virtual ~exception() _NOEXCEPT;
     virtual const char* what() const _NOEXCEPT;
 #ifdef STD_EXCEPTION_HAS_STACK_TRACE
-    /// This is ClickHouse patch to libc++. It breaks ABI, so you cannot link your code with any C++ libraries
+    /// This is ClickHouse patch to libc++. It breaks ABI, so you cannot link your code with any C++ library
     /// that has any std::exception-related symbols exported and was built without this patch.
     void ** const get_stack_trace_frames() const _NOEXCEPT { return const_cast<void**>(frames); }
     int get_stack_trace_size() const _NOEXCEPT { return size; }
