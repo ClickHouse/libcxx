@@ -69,7 +69,7 @@ template <> struct _LIBCPP_TEMPLATE_VIS hash<unsigned char>
     }
 };
 
-template <> struct _LIBCPP_TEMPLATE_VIS hash<unsigned char>
+template <> struct _LIBCPP_TEMPLATE_VIS hash<char8_t>
  : public std::unary_function<char8_t, size_t>
 {
     _LIBCPP_INLINE_VISIBILITY
