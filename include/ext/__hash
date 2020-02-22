@@ -69,6 +69,16 @@ template <> struct _LIBCPP_TEMPLATE_VIS hash<unsigned char>
     }
 };
 
+template <> struct _LIBCPP_TEMPLATE_VIS hash<unsigned char>
+ : public std::unary_function<char8_t, size_t>
+{
+    _LIBCPP_INLINE_VISIBILITY
+    size_t operator()(char8_t __c) const _NOEXCEPT
+    {
+        return __c;
+    }
+};
+
 template <> struct _LIBCPP_TEMPLATE_VIS hash<short>
  : public std::unary_function<short, size_t>
 {
