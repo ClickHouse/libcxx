@@ -77,6 +77,8 @@ template <class E> void rethrow_if_nested(const E& e);
 */
 
 #include <__config>
+#include <__availability>
+#include <__memory/base.h>
 #include <cstddef>
 #include <cstdlib>
 #include <type_traits>
@@ -107,6 +109,8 @@ public:
         capture();
 #endif
     }
+    _LIBCPP_INLINE_VISIBILITY exception(const exception&) _NOEXCEPT = default;
+
     virtual ~exception() _NOEXCEPT;
     virtual const char* what() const _NOEXCEPT;
 #ifdef STD_EXCEPTION_HAS_STACK_TRACE
