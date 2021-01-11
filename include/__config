@@ -10,9 +10,16 @@
 #ifndef _LIBCPP_CONFIG
 #define _LIBCPP_CONFIG
 
+/*
+ * ClickHouse specific options.
+ * Unstable ABI to provide better performance
+ * Availability annotations are not supported.
+ * _LIBCPP_ENABLE_CXX20_REMOVED_ALLOCATOR_MEMBERS because ClickHouse builds with C++20.
+ */
 #define _LIBCPP_ABI_VERSION 999
 #define _LIBCPP_ABI_UNSTABLE
 #define _LIBCPP_HAS_NO_VENDOR_AVAILABILITY_ANNOTATIONS
+#define _LIBCPP_ENABLE_CXX20_REMOVED_ALLOCATOR_MEMBERS
 
 #if defined(_MSC_VER) && !defined(__clang__)
 #  if !defined(_LIBCPP_HAS_NO_PRAGMA_SYSTEM_HEADER)
