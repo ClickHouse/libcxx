@@ -7,6 +7,11 @@
 //
 //===----------------------------------------------------------------------===//
 
+// This file was edited for ClickHouse.
+// This is a copy of <experimental/coroutines> but only without namespace experimental.
+// It is needed to make g++10 coroutines work with libcxx.
+// Here could have been a copy from libstdc++, but it can't be used because of license.
+
 #ifndef _LIBCPP_EXPERIMENTAL_COROUTINE
 #define _LIBCPP_EXPERIMENTAL_COROUTINE
 
@@ -57,17 +62,7 @@ template <class P> struct hash<coroutine_handle<P>>;
 #pragma GCC system_header
 #endif
 
-#ifdef _LIBCPP_HAS_NO_COROUTINES
-# if defined(_LIBCPP_WARNING)
-    _LIBCPP_WARNING("<experimental/coroutine> cannot be used with this compiler")
-# else
-#   warning <experimental/coroutine> cannot be used with this compiler
-# endif
-#endif
-
-#ifndef _LIBCPP_HAS_NO_COROUTINES
-
-_LIBCPP_BEGIN_NAMESPACE_EXPERIMENTAL_COROUTINES
+namespace std { inline namespace coroutines_v1 {
 
 template <class _Tp, class = void>
 struct __coroutine_traits_sfinae {};
@@ -315,20 +310,18 @@ struct suspend_always {
   void await_resume() const _NOEXCEPT {}
 };
 
-_LIBCPP_END_NAMESPACE_EXPERIMENTAL_COROUTINES
+} }
 
 _LIBCPP_BEGIN_NAMESPACE_STD
 
 template <class _Tp>
-struct hash<_VSTD_CORO::coroutine_handle<_Tp> > {
-    using __arg_type = _VSTD_CORO::coroutine_handle<_Tp>;
+struct hash<std::coroutines_v1::coroutine_handle<_Tp> > {
+    using __arg_type = std::coroutines_v1::coroutine_handle<_Tp>;
     _LIBCPP_INLINE_VISIBILITY
     size_t operator()(__arg_type const& __v) const _NOEXCEPT
     {return hash<void*>()(__v.address());}
 };
 
 _LIBCPP_END_NAMESPACE_STD
-
-#endif // !defined(_LIBCPP_HAS_NO_COROUTINES)
 
 #endif /* _LIBCPP_EXPERIMENTAL_COROUTINE */
