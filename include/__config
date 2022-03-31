@@ -1168,12 +1168,14 @@ extern "C" _LIBCPP_FUNC_VIS void __sanitizer_annotate_contiguous_container(
 #  endif // _LIBCPP_HAS_THREAD_API
 #endif // _LIBCPP_HAS_NO_THREADS
 
+#if !defined(GLIBC_COMPATIBILITY_ON)
 #if defined(_LIBCPP_HAS_THREAD_API_PTHREAD)
 #if defined(__ANDROID__) && __ANDROID_API__ >= 30
 #define _LIBCPP_HAS_COND_CLOCKWAIT
 #elif defined(_LIBCPP_GLIBC_PREREQ)
 #if _LIBCPP_GLIBC_PREREQ(2, 30)
 #define _LIBCPP_HAS_COND_CLOCKWAIT
+#endif
 #endif
 #endif
 #endif
